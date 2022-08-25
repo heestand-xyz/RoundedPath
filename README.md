@@ -1,3 +1,3 @@
-# RoundPath
+# Rounded Path
 
-A description of this package.
+<img src="https://github.com/heestand-xyz/RoundedPath/blob/main/Assets/RoundedPathScreen2.png?raw=true" width="250"/>
