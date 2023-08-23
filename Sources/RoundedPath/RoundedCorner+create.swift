@@ -41,8 +41,8 @@ extension RoundedCorner {
         
         // Points of intersection are calculated by the proportion between
         // the coordinates of the vector, length of vector and the length of the segment.
-        var p1Cross = getProportionPoint(angularPoint, segment, length1, dx1, dy1)
-        var p2Cross = getProportionPoint(angularPoint, segment, length2, dx2, dy2)
+        let p1Cross = getProportionPoint(angularPoint, segment, length1, dx1, dy1)
+        let p2Cross = getProportionPoint(angularPoint, segment, length2, dx2, dy2)
         
         // Calculation of the coordinates of the circle
         // center by the addition of angular vectors.
@@ -52,11 +52,11 @@ extension RoundedCorner {
         let L: CGFloat = getLength(dx, dy)
         let d: CGFloat = getLength(segment, radius)
         
-        var circlePoint = getProportionPoint(angularPoint, d, L, dx, dy)
+        let circlePoint = getProportionPoint(angularPoint, d, L, dx, dy)
         
         //StartAngle and EndAngle of arc
-        var startAngle = atan2(p1Cross.y - circlePoint.y, p1Cross.x - circlePoint.x)
-        var endAngle = atan2(p2Cross.y - circlePoint.y, p2Cross.x - circlePoint.x)
+        let startAngle = atan2(p1Cross.y - circlePoint.y, p1Cross.x - circlePoint.x)
+        let endAngle = atan2(p2Cross.y - circlePoint.y, p2Cross.x - circlePoint.x)
         
         //Sweep angle
         var sweepAngle = endAngle - startAngle

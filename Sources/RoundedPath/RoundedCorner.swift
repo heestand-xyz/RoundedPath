@@ -21,4 +21,13 @@ struct RoundedCorner {
     let leadingAngle: Angle
     let trailingAngle: Angle
     let clockwise: Bool
+    
+    public func sample(at offset: CGFloat) -> CGPoint {
+        .zero
+    }
+    
+    public func length() -> CGFloat {
+        let radians: CGFloat = abs(leadingAngle.radians - trailingAngle.radians)
+        return radians * roundedRadius
+    }
 }

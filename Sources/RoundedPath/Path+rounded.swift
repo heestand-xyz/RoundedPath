@@ -6,11 +6,27 @@ import SwiftUI
 
 extension Path {
     
-    public func rounded(_ cornerRadius: CGFloat) -> Path {
+    public func rounded(_ cornerRadius: CGFloat, closed: Bool = true) -> Path {
+        roundedPath(cornerRadius, closed: closed).path
+    }
+    
+    public func roundedPath(_ cornerRadius: CGFloat, closed: Bool = true) -> RoundedPath {
         
         var points: [CGPoint] = []
         cgPath.applyWithBlock { element in
             points.append(element.pointee.points.pointee)
+        }
+        if points.isEmpty {
+            return RoundedPath(leadingPoint: .zero,
+                               roundedCorners: [],
+                               trailingPoint: .zero,
+                               closed: closed)
+        }
+        if points.count < 3 {
+            return RoundedPath(leadingPoint: points.first!,
+                               roundedCorners: [],
+                               trailingPoint: points.last!,
+                               closed: closed)
         }
         
         let roundedCorners: [RoundedCorner] = { () -> [RoundedCorner] in
@@ -18,6 +34,10 @@ extension Path {
             var roundedCorners: [RoundedCorner] = []
             
             for (index, point) in points.enumerated() {
+                
+                if !closed {
+                    guard index > 0, index < points.count - 1 else { continue }
+                }
                 
                 let previousPoint = index == 0 ? points.last! : points[index - 1]
                 let nextPoint = index == points.count - 1 ? points.first! : points[index + 1]
@@ -29,15 +49,9 @@ extension Path {
             return roundedCorners
         }()
         
-        return Path { path in
-            for roundedCorner in roundedCorners {
-                path.addArc(center: roundedCorner.roundedPoint,
-                            radius: roundedCorner.roundedRadius,
-                            startAngle: roundedCorner.leadingAngle,
-                            endAngle: roundedCorner.trailingAngle,
-                            clockwise: roundedCorner.clockwise)
-            }
-            path.closeSubpath()
-        }
+        return RoundedPath(leadingPoint: points.first!,
+                           roundedCorners: roundedCorners,
+                           trailingPoint: points.last!,
+                           closed: closed)
     }
 }
